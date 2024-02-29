@@ -2,14 +2,14 @@ import { Logo } from "./icons/LogoIcons";
 import { BsPlusLg } from "react-icons/bs";
 export const Header = () => {
   return (
-    <div className="flex justify-center items-center w-full h-[15%]">
+    <div className="flex justify-center items-center w-full h-[8%]">
       <div className="flex justify-between container">
         <div className="flex justify-center items-center gap-[24px] *:cursor-pointer">
           <div>
             <Logo w={"28"} h={"28"} />
           </div>
-          <div className="">Dashboard</div>
-          <div>Records</div>
+          <div className=" text-[18px] text-slate-500">Dashboard</div>
+          <div className="text-[18px] text-slate-500">Records</div>
         </div>
         <div className="flex justify-center items-center gap-[24px]">
           <div>
@@ -18,7 +18,11 @@ export const Header = () => {
               Record
             </button>
           </div>
-          <div>Ava</div>
+          <div className="avatar">
+            <div className="w-12 rounded-full">
+              <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
