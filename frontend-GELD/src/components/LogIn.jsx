@@ -6,9 +6,9 @@ export const LogIn = () => {
     <div className=" flex w-screen h-screen">
       <div className=" flex justify-center items-center w-1/2 h-full">
         <div className="flex flex-col items-center gap-[40px] w-[35%]">
-          <div className="flex">
+          <div className="flex justify-center items-center gap-[10px]">
             <Logo w={"25"} h={"25"} />
-            <Geld />
+            <Geld w={"50"} h={"50"} />
           </div>
           <div className=" text-center">
             <LoginHeader
@@ -19,7 +19,12 @@ export const LogIn = () => {
           <div className="flex flex-col items-center gap-[15px] w-full">
             <InputsSection holdertext={"Email"} type={"text"} />
             <InputsSection holdertext={"Password"} type={"password"} />
-            <Button buttonValue={"Log in"} />
+
+            <div className="w-full">
+              <Link href={"/dashboard"}>
+                <Button buttonValue={"Log in"} />
+              </Link>
+            </div>
           </div>
           <div className="flex gap-[15px]">
             <div>Don’t have account?</div>

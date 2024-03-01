@@ -2,7 +2,7 @@ import { Header } from "../components/Header";
 import { GoDotFill } from "react-icons/go";
 import { FaCircleArrowUp } from "react-icons/fa6";
 import { FaCircleArrowDown } from "react-icons/fa6";
-
+import { BarChart } from "../components/BarChart";
 export default function Home() {
   return (
     <div className="w-screen h-screen">
@@ -63,7 +63,9 @@ export default function Home() {
                   <div className=" font-bold text-[18px]">Income - Expense</div>
                 </div>
               </div>
-              <div className="h-[75%]"></div>
+              <div className="h-[75%]">
+                <BarChart />
+              </div>
             </div>
             <div className=" w-[49%] h-full"></div>
           </div>
