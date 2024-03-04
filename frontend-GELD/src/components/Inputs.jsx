@@ -9,7 +9,7 @@ export const InputsSection = ({ holdertext, type }) => {
 };
 export const Button = ({ buttonValue }) => {
   return (
-    <button className="btn text-white bg-blue-500 rounded-3xl hover:bg-blue-500 w-full">
+    <button className="btn text-white bg-blue-500 rounded-3xl text-[20px] hover:bg-blue-500 w-full">
       {buttonValue}
     </button>
   );

@@ -1,5 +1,6 @@
 import { Logo } from "./icons/LogoIcons";
 import { BsPlusLg } from "react-icons/bs";
+import Link from "next/link";
 export const Header = () => {
   return (
     <div className="flex justify-center items-center w-full h-[8%]">
@@ -8,8 +9,12 @@ export const Header = () => {
           <div>
             <Logo w={"28"} h={"28"} />
           </div>
-          <div className=" text-[18px] text-slate-500">Dashboard</div>
-          <div className="text-[18px] text-slate-500">Records</div>
+          <Link href={"/dashboard"}>
+            <div className=" text-[18px] text-slate-500">Dashboard</div>
+          </Link>
+          <Link href={"/records"}>
+            <div className="text-[18px] text-slate-500">Records</div>
+          </Link>
         </div>
         <div className="flex justify-center items-center gap-[24px]">
           <div>

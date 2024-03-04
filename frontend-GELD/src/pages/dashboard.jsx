@@ -3,6 +3,7 @@ import { GoDotFill } from "react-icons/go";
 import { FaCircleArrowUp } from "react-icons/fa6";
 import { FaCircleArrowDown } from "react-icons/fa6";
 import { BarChart } from "../components/BarChart";
+import { DoughnutChart } from "../components/BarChart";
 export default function Home() {
   return (
     <div className="w-screen h-screen">
@@ -63,11 +64,20 @@ export default function Home() {
                   <div className=" font-bold text-[18px]">Income - Expense</div>
                 </div>
               </div>
-              <div className="h-[75%]">
+              <div className="flex justify-center h-[75%]">
                 <BarChart />
               </div>
             </div>
-            <div className=" w-[49%] h-full"></div>
+            <div className=" w-[49%] h-full">
+              <div className="flex justify-center items-center h-[25%] border-b-[2px]">
+                <div className="flex w-[80%] gap-[10px]">
+                  <div className=" font-bold text-[18px]">Income - Expense</div>
+                </div>
+              </div>
+              <div className="flex justify-center h-[75%]">
+                <DoughnutChart />
+              </div>
+            </div>
           </div>
           <div className="w-full bg-white rounded-2xl"></div>
         </div>
