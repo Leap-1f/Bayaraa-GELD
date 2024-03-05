@@ -4,6 +4,25 @@ import { LoginHeader } from "./LogIn";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 export const SignUpSection = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [repassword, setRepassword] = useState("");
+  const addUser = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password, repassword }),
+      });
+      const newData = await response.json();
+      console.log(newData);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   return (
     <div className=" flex w-screen h-screen">
       <div className=" flex justify-center items-center w-1/2 h-full">
@@ -19,13 +38,33 @@ export const SignUpSection = () => {
             />
           </div>
           <div className="flex flex-col items-center gap-[15px] w-full">
-            <InputsSection holdertext={"Name"} type={"text"} />
-            <InputsSection holdertext={"Email"} type={"text"} />
-            <InputsSection holdertext={"Password"} type={"password"} />
-            <InputsSection holdertext={"Re-assword"} type={"password"} />
+            <InputsSection
+              holdertext={"Name"}
+              type={"text"}
+              value={name}
+              setState={setName}
+            />
+            <InputsSection
+              holdertext={"Email"}
+              type={"text"}
+              value={email}
+              setState={setEmail}
+            />
+            <InputsSection
+              holdertext={"Password"}
+              type={"password"}
+              value={password}
+              setState={setPassword}
+            />
+            <InputsSection
+              holdertext={"Re-password"}
+              type={"password"}
+              value={repassword}
+              setState={setRepassword}
+            />
             <div className="w-full">
               <Link href={"/steps"}>
-                <Button buttonValue={"Sign up"} />
+                <Button buttonValue={"Sign up"} func={addUser} />
               </Link>
             </div>
           </div>

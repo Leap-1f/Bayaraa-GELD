@@ -4,28 +4,34 @@ import { Bar, Doughnut } from "react-chartjs-2";
 export const BarChart = () => {
   const sourceData = [
     {
-      label: "Ads",
-      value: 32,
+      label: "Jan",
+      value1: 52,
+      value2: 32,
     },
     {
-      label: "Subscriptions",
-      value: 45,
+      label: "Feb",
+      value1: 40,
+      value2: 22,
     },
     {
-      label: "Sponsorships",
-      value: 23,
+      label: "Mar",
+      value1: 62,
+      value2: 32,
     },
     {
-      label: "ds",
-      value: 23,
+      label: "April",
+      value1: 45,
+      value2: 45,
     },
     {
-      label: "dsa",
-      value: 23,
+      label: "May",
+      value1: 20,
+      value2: 10,
     },
     {
-      label: "dsa",
-      value: 23,
+      label: "June",
+      value1: 52,
+      value2: 60,
     },
   ];
   return (
@@ -35,14 +41,18 @@ export const BarChart = () => {
           labels: sourceData.map((data) => data.label),
           datasets: [
             {
-              label: "Count",
-              data: sourceData.map((data) => data.value),
-              backgroundColor: [
-                "rgba(43, 63, 229, 0.8)",
-                "rgba(250, 192, 19, 0.8)",
-                "rgba(253, 135, 135, 0.8)",
-              ],
-              borderRadius: 5,
+              label: "income",
+              data: sourceData.map((data) => data.value1),
+              backgroundColor: "rgb(132, 204, 22)",
+              hoverOffset: 4,
+              borderRadius: 20,
+            },
+            {
+              label: "expense",
+              data: sourceData.map((data) => data.value2),
+              backgroundColor: "rgb(249, 115, 22)",
+              hoverOffset: 4,
+              borderRadius: 20,
             },
           ],
         }}
@@ -59,28 +69,19 @@ export const BarChart = () => {
 };
 export const DoughnutChart = () => {
   const data = {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+    labels: "",
     datasets: [
       {
-        label: "# of Votes",
-        data: [12, 19, 3, 5, 2, 3],
+        label: "My First Dataset",
+        data: [150, 70, 100, 90, 40],
         backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
+          "rgb(28, 100, 242)",
+          "rgb(242, 144, 28)",
+          "rgb(22, 189, 202)",
+          "rgb(253, 187, 140)",
+          "rgb(231, 70, 148)",
         ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
-        ],
-        borderWidth: 1,
+        hoverOffset: 4,
       },
     ],
   };

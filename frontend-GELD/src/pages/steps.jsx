@@ -9,6 +9,7 @@ import Link from "next/link";
 export default function Home() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showBalanceSetup, setShowBalanceSetup] = useState(false);
+  const [cash, setCash] = useState("");
 
   const handleConfirm = () => {
     if (!showConfirmation) {
@@ -17,7 +18,21 @@ export default function Home() {
       setShowBalanceSetup(true);
     }
   };
-
+  const addUser = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ cash }),
+      });
+      const newData = await response.json();
+      console.log(newData);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   return (
     <div className="flex flex-col items-center gap-[100px]">
       <div className="flex flex-col items-center gap-[50px] mt-[80px]">
@@ -70,10 +85,10 @@ export default function Home() {
               <option>EUR - Europe pound</option>
             </select>
           </div>
-          <div className=" text-slate-400 text-[13px] w-[90%]">
+          <div className=" text-slate-400 text-[13px] w-[90%] text-center">
             Your base currency should be the one you use most often. All
             transactions in other currencies will be calculated based on this
-            one{" "}
+            one
           </div>
           <div onClick={handleConfirm} className="w-[80%] mt-[20px]">
             <Button buttonValue={"Confirm"} />
@@ -89,13 +104,18 @@ export default function Home() {
             Set up your cash Balance
           </div>
           <div className="flex justify-center items-center w-[80%]">
-            <InputsSection holdertext={"Email"} />
+            <InputsSection holdertext={"Amount"} />
           </div>
           <div className=" text-slate-400 text-[13px] w-[90%] text-center">
             How much cash do you have in your wallet?
           </div>
           <div onClick={handleConfirm} className="w-[80%] mt-[20px]">
-            <Button buttonValue={"Confirm"} />
+            <Button
+              buttonValue={"Confirm"}
+              // value={cash}
+              // setState={setCash}
+              // func={addUser}
+            />
           </div>
         </div>
       )}

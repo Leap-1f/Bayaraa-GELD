@@ -70,16 +70,45 @@ export default function Home() {
             </div>
             <div className=" w-[49%] h-full">
               <div className="flex justify-center items-center h-[25%] border-b-[2px]">
-                <div className="flex w-[80%] gap-[10px]">
+                <div className="flex justify-between w-[80%] gap-[10px]">
                   <div className=" font-bold text-[18px]">Income - Expense</div>
+                  <div className=" text-gray-400">Jun 1 - Nov 30</div>
                 </div>
               </div>
-              <div className="flex justify-center h-[75%]">
-                <DoughnutChart />
+              <div className="flex justify-between h-[75%] p-[20px]">
+                <div className="">
+                  <DoughnutChart />
+                </div>
+                <div className="grid gap-4 grid-cols-3 grid-rows-5 w-[60%]">
+                  <div className="">Bills</div>
+                  <div className="">5'000'000 &#8366;</div>
+                  <div className=" text-center">15.50%</div>
+                  <div className="">Food</div>
+                  <div className="">5'000'000 &#8366;</div>
+                  <div className="text-center">15.50%</div>
+                  <div className="">Shopping</div>
+                  <div className="">5'000'000 &#8366;</div>
+                  <div className="text-center">15.50%</div>
+                  <div className="">Insurance</div>
+                  <div className="">5'000'000 &#8366;</div>
+                  <div className="text-center">15.50%</div>
+                  <div className="">Clothing</div>
+                  <div className="">5'000'000 &#8366;</div>
+                  <div className="text-center">15.50%</div>
+                </div>
               </div>
             </div>
           </div>
-          <div className="w-full bg-white rounded-2xl"></div>
+          <div className="w-full bg-white rounded-2xl h-[100px] p-[25px]">
+            <div className="flex justify-center items-center border-b-[2px]">
+              <div className="flex w-[90%] gap-[10px]">
+                <div className=" font-bold text-[18px] mb-[20px]">
+                  Last Records
+                </div>
+              </div>
+              <div className=""></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
