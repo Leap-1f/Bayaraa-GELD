@@ -1,7 +1,8 @@
 import { Logo } from "./icons/LogoIcons";
 import { BsPlusLg } from "react-icons/bs";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 export const Header = () => {
+  const router = useRouter();
   return (
     <div className="flex justify-center items-center w-full h-[8%]">
       <div className="flex justify-between container">
@@ -9,12 +10,18 @@ export const Header = () => {
           <div>
             <Logo w={"28"} h={"28"} />
           </div>
-          <Link href={"/dashboard"}>
-            <div className=" text-[18px] text-slate-500">Dashboard</div>
-          </Link>
-          <Link href={"/records"}>
-            <div className="text-[18px] text-slate-500">Records</div>
-          </Link>
+          <div
+            className=" text-[18px] text-slate-500"
+            onClick={() => router.push("/dashboard")}
+          >
+            Dashboard
+          </div>
+          <div
+            className="text-[18px] text-slate-500"
+            onClick={() => router.push("/records")}
+          >
+            Records
+          </div>
         </div>
         <div className="flex justify-center items-center gap-[24px]">
           <div>

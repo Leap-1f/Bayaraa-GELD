@@ -5,12 +5,12 @@ import { Button } from "../components/Inputs";
 import { Balance } from "../components/icons/LogoIcons";
 import { InputsSection } from "../components/Inputs";
 import { GoodJob } from "../components/icons/LogoIcons";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 export default function Home() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showBalanceSetup, setShowBalanceSetup] = useState(false);
   const [cash, setCash] = useState("");
-
+  const router = useRouter();
   const handleConfirm = () => {
     if (!showConfirmation) {
       setShowConfirmation(true);
@@ -18,7 +18,7 @@ export default function Home() {
       setShowBalanceSetup(true);
     }
   };
-  const addUser = async () => {
+  const addAmount = async () => {
     try {
       const response = await fetch("http://localhost:3001/users", {
         method: "POST",
@@ -129,11 +129,11 @@ export default function Home() {
             Your very first account has been created. Now continue to dashboard
             and start tracking
           </div>
-
           <div onClick={handleConfirm} className="w-[80%] mt-[20px]">
-            <Link href={"/dashboard"}>
-              <Button buttonValue={"Go to Dashboard"} />{" "}
-            </Link>
+            <Button
+              buttonValue={"Go to Dashboard"}
+              func={() => router.push("/dashboard")}
+            />
           </div>
         </div>
       )}

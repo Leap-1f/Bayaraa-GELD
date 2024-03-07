@@ -1,13 +1,14 @@
 import { Logo, Geld } from "./icons/LogoIcons";
 import { InputsSection, Button } from "./Inputs";
 import { LoginHeader } from "./LogIn";
-import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 export const SignUpSection = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
+  const router = useRouter();
   const addUser = async () => {
     try {
       const response = await fetch("http://localhost:3001/users", {
@@ -62,17 +63,18 @@ export const SignUpSection = () => {
               value={repassword}
               setState={setRepassword}
             />
-            <div className="w-full">
-              <Link href={"/steps"}>
-                <Button buttonValue={"Sign up"} func={addUser} />
-              </Link>
+            <div className="w-full" onClick={() => router.push("/steps")}>
+              <Button buttonValue={"Sign up"} func={addUser} />
             </div>
           </div>
           <div className="flex gap-[15px]">
             <div>Already have account?</div>
-            <Link href={"/login"}>
-              <div className=" text-blue-600 cursor-pointer">Log in</div>
-            </Link>
+            <div
+              className=" text-blue-600 cursor-pointer"
+              onClick={() => router.push("/login")}
+            >
+              Log in
+            </div>
           </div>
         </div>
       </div>
