@@ -34,3 +34,7 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ error: "server error" });
   }
 };
+
+export const testController = async (req, res) => {
+  return res.send({ msg: "success" });
+};

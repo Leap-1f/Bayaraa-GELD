@@ -8,7 +8,7 @@ export const Header = () => {
       <div className="flex justify-between container">
         <div className="flex justify-center items-center gap-[24px] *:cursor-pointer">
           <div>
-            <Logo w={"28"} h={"28"} />
+            <Logo w={"28"} h={"28"} color={"#0166FF"} />
           </div>
           <div
             className=" text-[18px] text-slate-500"

@@ -29,8 +29,8 @@ export const SignUpSection = () => {
       <div className=" flex justify-center items-center w-1/2 h-full">
         <div className="flex flex-col items-center gap-[40px] w-[35%]">
           <div className="flex justify-center items-center gap-[10px]">
-            <Logo w={"25"} h={"25"} />
-            <Geld w={"50"} h={"50"} />
+            <Logo w={"25"} h={"25"} color={"#0166FF"} />
+            <Geld w={"50"} h={"50"} color={"black"} />
           </div>
           <div className=" text-center">
             <LoginHeader

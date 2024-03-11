@@ -15,7 +15,7 @@ export const InputsSection = ({ holdertext, type, setState, value }) => {
 export const Button = ({ buttonValue, func }) => {
   return (
     <button
-      className="btn text-white bg-blue-500 rounded-3xl text-[20px] hover:bg-blue-500 w-full"
+      className={`btn text-white rounded-3xl text-[20px] w-full bg-blue-500 hover:bg-blue-500`}
       onClick={func}
     >
       {buttonValue}
