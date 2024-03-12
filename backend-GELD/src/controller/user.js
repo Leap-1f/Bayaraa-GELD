@@ -34,6 +34,17 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ error: "server error" });
   }
 };
+export const addRecord = async (req, res) => {
+  const { amount, category } = req.body;
+  try {
+    const data =
+      await sql`INSERT INTO category(name,email,password) VALUES(${amount},${category}) RETURNING *`;
+    res.status(201).json(data);
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "server error" });
+  }
+};
 
 export const testController = async (req, res) => {
   return res.send({ msg: "success" });

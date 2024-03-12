@@ -8,7 +8,6 @@ export const LogIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
   const handleSubmit = async () => {
     try {
       const response = await fetch("http://localhost:3001/users/login", {
@@ -31,7 +30,6 @@ export const LogIn = () => {
       setError("Server error. Please try again later.");
     }
   };
-
   return (
     <div className="flex w-screen h-screen">
       <div className="flex justify-center items-center w-1/2 h-full">

@@ -4,13 +4,17 @@ import { IoEyeSharp } from "react-icons/io5";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa6";
 import { useState } from "react";
-import { Button } from "../components/Inputs";
 import { Categories } from "../components/icons/Category";
-import { RangeSlider } from "../components/icons/RangeSlider";
+import CategoryIcons from "../components/icons/CategoryIcons";
 export default function Home() {
   const [isRecordOpen, setIsRecordOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [recordType, setRecordType] = useState("Expense");
+  const [selectedIcon, setSelectedIcon] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const handleIconClick = (item) => {
+    setSelectedIcon(item.id);
+  };
   const openRecord = () => {
     setIsRecordOpen(true);
   };
@@ -21,10 +25,26 @@ export default function Home() {
     setIsCategoryOpen(true);
   };
   const closeCategory = () => {
+    setSelectedIcon("");
     setIsCategoryOpen(false);
   };
   const handleRecordTypeChange = (type) => {
     setRecordType(type);
+  };
+  const addRecord = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ amount, category }),
+      });
+      const newData = await response.json();
+      console.log(newData);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
   return (
     <>
@@ -214,15 +234,56 @@ export default function Home() {
                   </div>
                   <div>
                     <div>Category</div>
-                    <div></div>
+                    <div className=" w-full">
+                      <div className="dropdown dropdown-bottom w-full">
+                        <input
+                          type="text"
+                          className="w-full bg-gray-100 border-gray-300 rounded-lg"
+                          placeholder="Find or choose category"
+                        />
+                        <ul
+                          tabIndex={0}
+                          className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full max-w-md"
+                        >
+                          <li>
+                            <a>Item 1</a>
+                          </li>
+                          <li>
+                            <a>Item 2</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex">
-                    <div className="w-1/2">
-                      <div>Date</div>
-                    </div>
-                    <div className="w-1/2">
-                      <div>Time</div>
-                    </div>
+                  <div className="flex gap-[20px]">
+                    <form className="flex flex-col">
+                      <label
+                        htmlFor="transactionDate"
+                        className="text-gray-700"
+                      >
+                        Date
+                      </label>
+                      <input
+                        type="date"
+                        id="transactionDate"
+                        name="date"
+                        className="input input-bordered bg-gray-50"
+                      />
+                    </form>
+                    <form className="flex flex-col">
+                      <label
+                        htmlFor="transactionTime"
+                        className="text-gray-700"
+                      >
+                        Time
+                      </label>
+                      <input
+                        type="time"
+                        id="transactionTime"
+                        name="time"
+                        className="input input-bordered bg-gray-50"
+                      />
+                    </form>
                   </div>
                   <div className="w-full">
                     <button
@@ -264,7 +325,7 @@ export default function Home() {
       )}
       {isCategoryOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-gray-700 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white rounded-md shadow-lg w-[25%] h-[25%]">
+          <div className="bg-white rounded-md shadow-lg w-[22%] h-[20%]">
             <div className=" flex justify-between items-center border-b-[2px] h-[23%] ml-[20px] mr-[20px]">
               <div className=" font-light text-[23px]">Add Category</div>
               <div onClick={closeCategory}>
@@ -281,7 +342,46 @@ export default function Home() {
                 </label>
               </div>
             </div>
-            <div className="flex w-full h-[77%]"></div>
+            <div className="flex flex-col w-full h-[77%]">
+              <div className="flex justify-center gap-[30px] p-[10px]">
+                <div>
+                  <div className="dropdown dropdown-bottom">
+                    <div tabIndex={0} className="btn">
+                      {selectedIcon ? (
+                        <div>{selectedIcon}</div>
+                      ) : (
+                        <div>Icon</div>
+                      )}
+                    </div>
+                    <div className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-[300px] h-[250px]">
+                      <div className="grid grid-cols-6 gap-4 ">
+                        {CategoryIcons.map((item, index) => (
+                          <button
+                            key={index}
+                            onClick={() => handleIconClick(item)}
+                          >
+                            <div className="">{item.id}</div>
+                          </button>
+                        ))}
+                      </div>
+                      <div className=" w-full border-solid border-[1px] border-gray-300 mt-[15px]"></div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Type here"
+                    className="input input-bordered w-full max-w-xs"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-center mt-[20px]">
+                <button className="btn btn-wide bg-green-400 text-white hover:bg-green-500">
+                  Add Category
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
