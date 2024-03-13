@@ -1,5 +1,25 @@
+import {
+  Chart as ChartJS,
+  BarElement,
+  CategoryScale,
+  Legend,
+  LinearScale,
+  Title,
+  Tooltip,
+  ArcElement,
+} from "chart.js";
 import React from "react";
 import { Bar, Doughnut } from "react-chartjs-2";
+
+ChartJS.register(
+  ArcElement,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 export const BarChart = () => {
   const sourceData = [
     {

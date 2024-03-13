@@ -1,11 +1,9 @@
 import { Header } from "../components/Header";
 import { GoDotFill } from "react-icons/go";
-import { FaCircleArrowUp } from "react-icons/fa6";
-import { FaCircleArrowDown } from "react-icons/fa6";
-import { BarChart } from "../components/BarChart";
-import { DoughnutChart } from "../components/BarChart";
-import { Logo } from "../components/icons/LogoIcons";
-import { Geld } from "../components/icons/LogoIcons";
+import { FaCircleArrowUp, FaCircleArrowDown } from "react-icons/fa6";
+import { BarChart, DoughnutChart } from "../components/BarChart";
+import { Logo, Geld } from "../components/icons/LogoIcons";
+
 export default function Home() {
   return (
     <div className="w-screen h-screen">
@@ -89,9 +87,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex justify-between h-[75%] p-[20px]">
-                <div className="">
-                  <DoughnutChart />
-                </div>
+                <DoughnutChart />
                 <div className="grid gap-4 grid-cols-3 grid-rows-5 w-[60%]">
                   <div className="">Bills</div>
                   <div className="">5'000'000 &#8366;</div>

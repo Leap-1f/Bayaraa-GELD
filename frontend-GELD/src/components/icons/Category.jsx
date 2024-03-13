@@ -11,3 +11,30 @@ export const Categories = [
   { name: "Income" },
   { name: "Others" },
 ];
+export const LastRecord = [
+  {
+    num: " 1,000₮",
+    p: "3 hours ago",
+    h1: "Lending & Renting",
+  },
+  {
+    num: " 1,000₮",
+    p: "3 hours ago",
+    h1: "Lending & Renting",
+  },
+  {
+    num: " 1,000₮",
+    p: "3 hours ago",
+    h1: "Lending & Renting",
+  },
+  {
+    num: " 1,000₮",
+    p: "3 hours ago",
+    h1: "Lending & Renting",
+  },
+  {
+    num: " 1,000₮",
+    p: "3 hours ago",
+    h1: "Lending & Renting",
+  },
+];

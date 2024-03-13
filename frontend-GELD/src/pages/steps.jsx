@@ -47,21 +47,21 @@ export default function Home() {
           <ul className="steps w-[400px]">
             <li
               className={`step transition-transform duration-300 ease-in-out ${
-                !showConfirmation ? "step-primary" : ""
+                !showConfirmation ? "step-info" : ""
               }`}
             >
               Currency
             </li>
             <li
               className={`step transition-transform duration-300 ease-in-out ${
-                showConfirmation && !showBalanceSetup ? "step-primary" : ""
+                showConfirmation && !showBalanceSetup ? "step-info" : ""
               }`}
             >
               Balance
             </li>
             <li
               className={`step transition-transform duration-300 ease-in-out ${
-                showBalanceSetup ? "step-primary" : ""
+                showBalanceSetup ? "step-info" : ""
               }`}
             >
               Finish

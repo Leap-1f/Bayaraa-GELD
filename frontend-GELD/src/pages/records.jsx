@@ -6,6 +6,9 @@ import { FaPlus } from "react-icons/fa6";
 import { useState } from "react";
 import { Categories } from "../components/icons/Category";
 import CategoryIcons from "../components/icons/CategoryIcons";
+import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
+import { LastRecord } from "../components/icons/Category";
+import { GoHomeFill } from "react-icons/go";
 export default function Home() {
   const [isRecordOpen, setIsRecordOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
@@ -15,10 +18,14 @@ export default function Home() {
   const handleIconClick = (item) => {
     setSelectedIcon(item.id);
   };
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category.name);
+  };
   const openRecord = () => {
     setIsRecordOpen(true);
   };
   const closeRecord = () => {
+    setSelectedCategory("");
     setIsRecordOpen(false);
   };
   const openCategory = () => {
@@ -51,7 +58,7 @@ export default function Home() {
       <div className="w-screen h-screen">
         <Header />
         <div className="flex justify-center h-[92%] w-full bg-gray-100">
-          <div className=" flex justify-center container h-full w-full gap-[2%]">
+          <div className=" flex justify-center container h-full w-full gap-[3%]">
             <div className="flex flex-col w-[25%] p-[20px] gap-[20px] bg-white rounded-2xl mt-[30px]">
               <div className="flex flex-col gap-[10px]">
                 <div className=" font-semibold text-[25px] ">Records</div>
@@ -126,10 +133,10 @@ export default function Home() {
               <div className="">
                 <div className="flex justify-between">
                   <div className=" font-semibold">Category</div>
-                  <div className=" text-gray-400">Clear</div>
+                  <div className=" text-gray-400 cursor-pointer">Clear</div>
                 </div>
-                <div className="flex flex-col gap-[10px] mt-[20px]">
-                  <div className="flex flex-col gap-[10px] mt-[20px]">
+                <div className="flex flex-col gap-[10px] ">
+                  <div className="flex flex-col gap-[10px] mt-[10px]">
                     {Categories.map((category, index) => (
                       <div
                         className=" flex justify-between ml-[10px]"
@@ -174,10 +181,77 @@ export default function Home() {
                     />
                   </div>
                 </div>
+                <div className="">
+                  <input type="range" className="w-full" />
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col w-[73%] mt-[30px] gap-[20px]">
+              <div className="flex flex-col">
+                <div className="flex justify-between">
+                  <div className="flex gap-[10px] ml-[100px]">
+                    <div className=" flex justify-center items-center cursor-pointer">
+                      <RiArrowLeftSLine className="w-[20px] h-[20px]" />
+                    </div>
+                    <div className="flex items-center">Last 30 Days</div>
+                    <div className=" flex justify-center items-center cursor-pointer">
+                      <RiArrowRightSLine className="w-[20px] h-[20px]" />
+                    </div>
+                  </div>
+                  <div className="">
+                    <select className="select w-full max-w-xs bg-white">
+                      <option selected>Newest First</option>
+                      <option>Oldest First</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-between w-full bg-white rounded-lg py-[15px] px-[10px]">
+                <div className="flex gap-[10px]">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      Checked
+                      className="checkbox checkbox-md"
+                    />
+                  </div>
+                  <div className="flex items-center">Select All</div>
+                </div>
+                <div className=" text-gray-400 mr-[20px]">- 35,500 &#8366;</div>
+              </div>
+              <div className="flex flex-col gap-[15px]">
+                <div className=" font-semibold text-[20px]">Today</div>
+                {LastRecord.map((category, index) => (
+                  <div
+                    key={index}
+                    className="flex justify-between w-full bg-white rounded-lg py-[15px] px-[10px]"
+                  >
+                    <div className="flex gap-[10px]">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          Checked
+                          className="checkbox checkbox-md"
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <div>{category.h1}</div>
+                        <div className="text-[13px] text-gray-400">
+                          {category.p}
+                        </div>
+                      </div>
+                    </div>
+                    <div className=" flex items-center mr-[20px] text-green-400">
+                      {category.num} &#8366;
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div>
+                <div className="font-semibold text-[20px]">Yesterday</div>
                 <div></div>
               </div>
             </div>
-            <div className="w-[73%] border-solid border-[1px] border-black"></div>
           </div>
         </div>
       </div>
@@ -236,22 +310,30 @@ export default function Home() {
                     <div>Category</div>
                     <div className=" w-full">
                       <div className="dropdown dropdown-bottom w-full">
-                        <input
-                          type="text"
-                          className="w-full bg-gray-100 border-gray-300 rounded-lg"
-                          placeholder="Find or choose category"
-                        />
-                        <ul
+                        <div
                           tabIndex={0}
-                          className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full max-w-md"
+                          className=" flex items-center input input-bordered w-full bg-gray-100"
                         >
-                          <li>
-                            <a>Item 1</a>
-                          </li>
-                          <li>
-                            <a>Item 2</a>
-                          </li>
-                        </ul>
+                          {selectedCategory ? (
+                            <div>{selectedCategory}</div>
+                          ) : (
+                            <div>Choose Category</div>
+                          )}
+                        </div>
+                        <div className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-fit h-fit">
+                          <div className="flex flex-col">
+                            {Categories.map((item, index) => (
+                              <button
+                                key={index}
+                                onClick={() => handleCategoryClick(item)}
+                                className="hover:bg-gray-200 p-2"
+                              >
+                                {item.name}
+                              </button>
+                            ))}
+                          </div>
+                          <div className="w-full border-solid border-[1px] border-gray-300 mt-[15px]"></div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -285,7 +367,7 @@ export default function Home() {
                       />
                     </form>
                   </div>
-                  <div className="w-full">
+                  <div className="w-full mt-[20px]">
                     <button
                       className={`btn w-full text-white ${
                         recordType === "Expense"
@@ -350,7 +432,9 @@ export default function Home() {
                       {selectedIcon ? (
                         <div>{selectedIcon}</div>
                       ) : (
-                        <div>Icon</div>
+                        <div>
+                          <GoHomeFill className="w-[20px] h-[20px]" />
+                        </div>
                       )}
                     </div>
                     <div className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-[300px] h-[250px]">
