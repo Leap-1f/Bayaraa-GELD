@@ -1,9 +1,8 @@
 import { Header } from "../components/Header";
 import { BsPlusLg } from "react-icons/bs";
-import { IoEyeSharp } from "react-icons/io5";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa6";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Categories } from "../components/icons/Category";
 import CategoryIcons from "../components/icons/CategoryIcons";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
@@ -15,9 +14,57 @@ export default function Home() {
   const [recordType, setRecordType] = useState("Expense");
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const handleIconClick = (item) => {
-    setSelectedIcon(item.id);
+  const [categories, setCategories] = useState([]);
+  const [categoryName, setCategoryName] = useState("");
+  const [selectedIconId, setSelectedIconId] = useState(null);
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/category", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const newData = await response.json();
+      setCategories(newData);
+      console.log(newData);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
+  const handleAddCategory = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3001/category/categories",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: categoryName,
+            category_img_id: selectedIconId,
+          }),
+        }
+      );
+      const newData = await response.json();
+      console.log(newData);
+      fetchCategories();
+      setCategoryName("");
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleIconClick = (item) => {
+    setSelectedIcon(item.icon);
+    setSelectedIconId(item.id);
+  };
+
   const handleCategoryClick = (category) => {
     setSelectedCategory(category.name);
   };
@@ -37,21 +84,6 @@ export default function Home() {
   };
   const handleRecordTypeChange = (type) => {
     setRecordType(type);
-  };
-  const addRecord = async () => {
-    try {
-      const response = await fetch("http://localhost:3001/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ amount, category }),
-      });
-      const newData = await response.json();
-      console.log(newData);
-    } catch (error) {
-      console.error("Error:", error);
-    }
   };
   return (
     <>
@@ -137,17 +169,26 @@ export default function Home() {
                 </div>
                 <div className="flex flex-col gap-[10px] ">
                   <div className="flex flex-col gap-[10px] mt-[10px]">
-                    {Categories.map((category, index) => (
+                    {categories.map((category, index) => (
                       <div
-                        className=" flex justify-between ml-[10px]"
+                        className="flex justify-between ml-[10px]"
                         key={index}
                       >
                         <div className="flex justify-center items-center gap-[10px]">
-                          <IoEyeSharp className=" w-[20px] h-[20px] fill-slate-400" />
+                          <div className=" flex justify-center items-center w-[20px] h-[20px] fill-slate-400">
+                            {
+                              CategoryIcons.find(
+                                (iconObj) =>
+                                  iconObj.id ===
+                                  parseInt(category.category_img, 10)
+                              )?.icon
+                            }
+                          </div>
+
                           {category.name}
                         </div>
                         <div className="flex justify-center items-center">
-                          <BiSolidRightArrow className=" w-[12px] h-[12px]" />
+                          <BiSolidRightArrow className="w-[12px] h-[12px]" />
                         </div>
                       </div>
                     ))}
@@ -224,7 +265,7 @@ export default function Home() {
                 {LastRecord.map((category, index) => (
                   <div
                     key={index}
-                    className="flex justify-between w-full bg-white rounded-lg py-[15px] px-[10px]"
+                    className="flex justify-between w-full bg-white rounded-lg py-[15px] px-[10px] hover:shadow-lg"
                   >
                     <div className="flex gap-[10px]">
                       <div className="flex items-center">
@@ -242,7 +283,7 @@ export default function Home() {
                       </div>
                     </div>
                     <div className=" flex items-center mr-[20px] text-green-400">
-                      {category.num} &#8366;
+                      {category.num}
                     </div>
                   </div>
                 ))}
@@ -322,12 +363,19 @@ export default function Home() {
                         </div>
                         <div className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-fit h-fit">
                           <div className="flex flex-col">
-                            {Categories.map((item, index) => (
+                            {categories.map((item, index) => (
                               <button
                                 key={index}
                                 onClick={() => handleCategoryClick(item)}
-                                className="hover:bg-gray-200 p-2"
+                                className="flex gap-[10px] hover:bg-gray-200 p-2"
                               >
+                                {
+                                  CategoryIcons.find(
+                                    (iconObj) =>
+                                      iconObj.id ===
+                                      parseInt(item.category_img, 10)
+                                  )?.icon
+                                }
                                 {item.name}
                               </button>
                             ))}
@@ -444,7 +492,7 @@ export default function Home() {
                             key={index}
                             onClick={() => handleIconClick(item)}
                           >
-                            <div className="">{item.id}</div>
+                            <div className="">{item.icon}</div>
                           </button>
                         ))}
                       </div>
@@ -457,11 +505,16 @@ export default function Home() {
                     type="text"
                     placeholder="Type here"
                     className="input input-bordered w-full max-w-xs"
+                    value={categoryName}
+                    onChange={(e) => setCategoryName(e.target.value)}
                   />
                 </div>
               </div>
               <div className="flex justify-center mt-[20px]">
-                <button className="btn btn-wide bg-green-400 text-white hover:bg-green-500">
+                <button
+                  className="btn btn-wide bg-green-400 text-white hover:bg-green-500"
+                  onClick={() => handleAddCategory()}
+                >
                   Add Category
                 </button>
               </div>
