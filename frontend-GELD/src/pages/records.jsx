@@ -17,6 +17,7 @@ export default function Home() {
   const [categories, setCategories] = useState([]);
   const [categoryName, setCategoryName] = useState("");
   const [selectedIconId, setSelectedIconId] = useState(null);
+
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -243,6 +244,8 @@ export default function Home() {
                     <select className="select w-full max-w-xs bg-white">
                       <option selected>Newest First</option>
                       <option>Oldest First</option>
+                      <option>Highest Price</option>
+                      <option>Lowest Price</option>
                     </select>
                   </div>
                 </div>
@@ -497,6 +500,15 @@ export default function Home() {
                         ))}
                       </div>
                       <div className=" w-full border-solid border-[1px] border-gray-300 mt-[15px]"></div>
+                      <div className="flex justify-evenly gap-[7px] mt-[17px] ">
+                        <div className="w-[20px] h-[20px] bg-red-500 rounded-full"></div>
+                        <div className="w-[20px] h-[20px] bg-blue-500 rounded-full"></div>
+                        <div className="w-[20px] h-[20px] bg-green-500 rounded-full"></div>
+                        <div className="w-[20px] h-[20px] bg-yellow-500 rounded-full"></div>
+                        <div className="w-[20px] h-[20px] bg-orange-500 rounded-full"></div>
+                        <div className="w-[20px] h-[20px] bg-purple-500 rounded-full"></div>
+                        <div className="w-[20px] h-[20px] bg-cyan-500 rounded-full"></div>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -1,36 +1,32 @@
-import { useState } from "react";
-import { Logo, Geld } from "../components/icons/LogoIcons";
-import { Money } from "../components/icons/LogoIcons";
-import { Button } from "../components/Inputs";
-import { Balance } from "../components/icons/LogoIcons";
-import { InputsSection } from "../components/Inputs";
-import { GoodJob } from "../components/icons/LogoIcons";
+import { useState, useContext } from "react";
+import {
+  Logo,
+  Geld,
+  Money,
+  Balance,
+  GoodJob,
+} from "../components/icons/LogoIcons";
+import { Button, InputsSection } from "../components/Inputs";
 import { useRouter } from "next/navigation";
+import { SignUpDataContext } from "../context/signupContext";
 export default function Home() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showBalanceSetup, setShowBalanceSetup] = useState(false);
-  const [cash, setCash] = useState("");
+
+  const {
+    currencyType,
+    balance,
+    setCurrencyType,
+    setBalance,
+    fetchSignUpData,
+  } = useContext(SignUpDataContext);
+
   const router = useRouter();
   const handleConfirm = () => {
     if (!showConfirmation) {
       setShowConfirmation(true);
     } else if (!showBalanceSetup) {
       setShowBalanceSetup(true);
-    }
-  };
-  const addAmount = async () => {
-    try {
-      const response = await fetch("http://localhost:3001/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ cash }),
-      });
-      const newData = await response.json();
-      console.log(newData);
-    } catch (error) {
-      console.error("Error:", error);
     }
   };
   return (
@@ -76,13 +72,14 @@ export default function Home() {
           </div>
           <div className=" font-semibold text-[25px]">Select base currency</div>
           <div className="flex justify-center items-center w-full">
-            <select className="select select-bordered w-full max-w-xs bg-slate-100 h-[60px]">
-              <option disabled selected>
-                Currency?
-              </option>
-              <option>MNT - Mongolian Tugrik</option>
-              <option>USD - USA Dollar</option>
-              <option>EUR - Europe pound</option>
+            <select
+              className="select select-bordered w-full max-w-xs bg-slate-100 h-[60px]"
+              onChange={setCurrencyType}
+            >
+              <option selected>Currency?</option>
+              <option value={currencyType}>MNT </option>
+              <option value={currencyType}>USD </option>
+              <option value={currencyType}>EUR </option>
             </select>
           </div>
           <div className=" text-slate-400 text-[13px] w-[90%] text-center">
@@ -91,7 +88,7 @@ export default function Home() {
             one
           </div>
           <div onClick={handleConfirm} className="w-[80%] mt-[20px]">
-            <Button buttonValue={"Confirm"} />
+            <Button buttonValue={"Confirm"} func={fetchSignUpData} />
           </div>
         </div>
       )}
@@ -104,18 +101,17 @@ export default function Home() {
             Set up your cash Balance
           </div>
           <div className="flex justify-center items-center w-[80%]">
-            <InputsSection holdertext={"Amount"} />
+            <InputsSection
+              holdertext={"Amount"}
+              value={balance}
+              setState={setBalance}
+            />
           </div>
           <div className=" text-slate-400 text-[13px] w-[90%] text-center">
             How much cash do you have in your wallet?
           </div>
           <div onClick={handleConfirm} className="w-[80%] mt-[20px]">
-            <Button
-              buttonValue={"Confirm"}
-              // value={cash}
-              // setState={setCash}
-              // func={addUser}
-            />
+            <Button buttonValue={"Confirm"} func={fetchSignUpData} />
           </div>
         </div>
       )}

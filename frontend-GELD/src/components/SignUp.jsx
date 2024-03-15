@@ -1,29 +1,23 @@
 import { Logo, Geld } from "./icons/LogoIcons";
 import { InputsSection, Button } from "./Inputs";
 import { LoginHeader } from "./LogIn";
-import { useState } from "react";
+import { useContext } from "react";
 import { useRouter } from "next/navigation";
+import { SignUpDataContext } from "../context/signupContext";
 export const SignUpSection = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [repassword, setRepassword] = useState("");
+  const {
+    name,
+    email,
+    password,
+    repassword,
+    setName,
+    setEmail,
+    setPassword,
+    setRepassword,
+    fetchSignUpData,
+  } = useContext(SignUpDataContext);
   const router = useRouter();
-  const addUser = async () => {
-    try {
-      const response = await fetch("http://localhost:3001/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password, repassword }),
-      });
-      const newData = await response.json();
-      console.log(newData);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+  console.log(name, email, password, repassword);
   return (
     <div className=" flex w-screen h-screen">
       <div className=" flex justify-center items-center w-1/2 h-full">
@@ -64,7 +58,7 @@ export const SignUpSection = () => {
               setState={setRepassword}
             />
             <div className="w-full" onClick={() => router.push("/steps")}>
-              <Button buttonValue={"Sign up"} func={addUser} />
+              <Button buttonValue={"Sign up"} func={fetchSignUpData} />
             </div>
           </div>
           <div className="flex gap-[15px]">
