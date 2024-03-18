@@ -4,6 +4,7 @@ import { LoginHeader } from "./LogIn";
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { SignUpDataContext } from "../context/signupContext";
+import { basicSchema } from "../schemas";
 export const SignUpSection = () => {
   const {
     name,
@@ -14,10 +15,31 @@ export const SignUpSection = () => {
     setEmail,
     setPassword,
     setRepassword,
-    fetchSignUpData,
   } = useContext(SignUpDataContext);
   const router = useRouter();
   console.log(name, email, password, repassword);
+  const BasicForm = () => {
+    const {
+      values,
+      errors,
+      touched,
+      isSubmitting,
+      handleBlur,
+      handleChange,
+      handleSubmit,
+    } = useFormik({
+      initialValues: {
+        email: "",
+        age: "",
+        password: "",
+        confirmPassword: "",
+      },
+      validationSchema: basicSchema,
+      onSubmit,
+    });
+
+    console.log(errors);
+  };
   return (
     <div className=" flex w-screen h-screen">
       <div className=" flex justify-center items-center w-1/2 h-full">
@@ -38,27 +60,57 @@ export const SignUpSection = () => {
               type={"text"}
               value={name}
               setState={setName}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className={errors.name && touched.name ? "input-error" : ""}
             />
+            {errors.name && touched.name && (
+              <p className="error">{errors.name}</p>
+            )}
             <InputsSection
               holdertext={"Email"}
               type={"text"}
               value={email}
               setState={setEmail}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className={errors.email && touched.email ? "input-error" : ""}
             />
+            {errors.email && touched.email && (
+              <p className="error">{errors.email}</p>
+            )}
             <InputsSection
               holdertext={"Password"}
               type={"password"}
               value={password}
               setState={setPassword}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className={
+                errors.password && touched.password ? "input-error" : ""
+              }
             />
+            {errors.password && touched.password && (
+              <p className="error">{errors.password}</p>
+            )}
             <InputsSection
               holdertext={"Re-password"}
               type={"password"}
               value={repassword}
               setState={setRepassword}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className={
+                errors.confirmPassword && touched.confirmPassword
+                  ? "input-error"
+                  : ""
+              }
             />
+            {errors.confirmPassword && touched.confirmPassword && (
+              <p className="error">{errors.confirmPassword}</p>
+            )}
             <div className="w-full" onClick={() => router.push("/steps")}>
-              <Button buttonValue={"Sign up"} func={fetchSignUpData} />
+              <Button buttonValue={"Sign up"} />
             </div>
           </div>
           <div className="flex gap-[15px]">

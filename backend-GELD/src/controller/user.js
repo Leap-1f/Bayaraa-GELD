@@ -2,12 +2,12 @@ import { sql } from "../../config/database.js";
 import bcrypt from "bcrypt";
 
 export const addUsers = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, currencyType, balance } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("Added user:", name, email, hashedPassword);
+    console.log("Added user:", name, email, currencyType, balance);
     const data =
-      await sql`INSERT INTO users(name,email,password) VALUES(${name},${email},${hashedPassword}) RETURNING *`;
+      await sql`INSERT INTO users(name,email,password,currency_type,balance) VALUES(${name},${email},${hashedPassword},${currencyType},${balance}) RETURNING *`;
     res.status(201).json(data);
   } catch (error) {
     console.error("Error:", error);

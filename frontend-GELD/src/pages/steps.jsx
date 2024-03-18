@@ -37,7 +37,6 @@ export default function Home() {
             <Logo w={"30"} h={"30"} />
             <Geld w={"60"} h={"60"} />
           </div>
-          <div></div>
         </div>
         <div className="">
           <ul className="steps w-[400px]">
@@ -74,12 +73,13 @@ export default function Home() {
           <div className="flex justify-center items-center w-full">
             <select
               className="select select-bordered w-full max-w-xs bg-slate-100 h-[60px]"
-              onChange={setCurrencyType}
+              onChange={(e) => setCurrencyType(e.target.value)}
+              value={currencyType}
             >
               <option selected>Currency?</option>
-              <option value={currencyType}>MNT </option>
-              <option value={currencyType}>USD </option>
-              <option value={currencyType}>EUR </option>
+              <option value="MNT">MNT </option>
+              <option value="USD">USD </option>
+              <option value="EUR">EUR </option>
             </select>
           </div>
           <div className=" text-slate-400 text-[13px] w-[90%] text-center">
@@ -88,7 +88,7 @@ export default function Home() {
             one
           </div>
           <div onClick={handleConfirm} className="w-[80%] mt-[20px]">
-            <Button buttonValue={"Confirm"} func={fetchSignUpData} />
+            <Button buttonValue={"Confirm"} />
           </div>
         </div>
       )}
@@ -111,7 +111,7 @@ export default function Home() {
             How much cash do you have in your wallet?
           </div>
           <div onClick={handleConfirm} className="w-[80%] mt-[20px]">
-            <Button buttonValue={"Confirm"} func={fetchSignUpData} />
+            <Button buttonValue={"Confirm"} />
           </div>
         </div>
       )}
@@ -125,7 +125,7 @@ export default function Home() {
             Your very first account has been created. Now continue to dashboard
             and start tracking
           </div>
-          <div onClick={handleConfirm} className="w-[80%] mt-[20px]">
+          <div onClick={fetchSignUpData} className="w-[80%] mt-[20px]">
             <Button
               buttonValue={"Go to Dashboard"}
               func={() => router.push("/dashboard")}

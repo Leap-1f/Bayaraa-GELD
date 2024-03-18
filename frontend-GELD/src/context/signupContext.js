@@ -15,7 +15,14 @@ export const SignUpAllData = ({ children }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, password, repassword }),
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          repassword,
+          currencyType,
+          balance,
+        }),
       });
       const newData = await response.json();
       setName(newData.name);
