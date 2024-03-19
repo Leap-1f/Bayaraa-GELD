@@ -9,12 +9,10 @@ export const takeRecords = async (req, res) => {
   }
 };
 export const addRecords = async (req, res) => {
-  const { name, category_img_id } = req.body;
+  const { name, amount, transaction_type, description } = req.body;
   try {
     const data = await sql`
-            INSERT INTO transaction(name,category_img) 
-            VALUES (${name},${category_img_id}) 
-            RETURNING *`;
+    INSERT INTO transaction(name,amount,transaction_type,description) VALUES(${name},${amount},${transaction_type},${description}) RETURNING *`;
     res.status(201).json(data);
   } catch (error) {
     console.error("Error:", error);

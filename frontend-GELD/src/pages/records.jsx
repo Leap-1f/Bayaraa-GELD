@@ -3,7 +3,6 @@ import { BsPlusLg } from "react-icons/bs";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa6";
 import { useState, useEffect } from "react";
-import { Categories } from "../components/icons/Category";
 import CategoryIcons from "../components/icons/CategoryIcons";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import { LastRecord } from "../components/icons/Category";
@@ -17,7 +16,7 @@ export default function Home() {
   const [categories, setCategories] = useState([]);
   const [categoryName, setCategoryName] = useState("");
   const [selectedIconId, setSelectedIconId] = useState(null);
-
+  const [selectedColor, setSelectedColor] = useState("black");
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -71,6 +70,7 @@ export default function Home() {
   };
   const openRecord = () => {
     setIsRecordOpen(true);
+    // setRecordType("");
   };
   const closeRecord = () => {
     setSelectedCategory("");
@@ -86,6 +86,11 @@ export default function Home() {
   const handleRecordTypeChange = (type) => {
     setRecordType(type);
   };
+
+  const handleColorClick = (color) => {
+    setSelectedColor(color);
+  };
+
   return (
     <>
       <div className="w-screen h-screen">
@@ -285,6 +290,9 @@ export default function Home() {
                         </div>
                       </div>
                     </div>
+                    <div className="flex items-center text-gray-400">
+                      {category.par}
+                    </div>
                     <div className=" flex items-center mr-[20px] text-green-400">
                       {category.num}
                     </div>
@@ -458,7 +466,7 @@ export default function Home() {
       )}
       {isCategoryOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-gray-700 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white rounded-md shadow-lg w-[22%] h-[20%]">
+          <div className="bg-white rounded-md shadow-lg w-[28%] h-[25%]">
             <div className=" flex justify-between items-center border-b-[2px] h-[23%] ml-[20px] mr-[20px]">
               <div className=" font-light text-[23px]">Add Category</div>
               <div onClick={closeCategory}>
@@ -476,12 +484,14 @@ export default function Home() {
               </div>
             </div>
             <div className="flex flex-col w-full h-[77%]">
-              <div className="flex justify-center gap-[30px] p-[10px]">
+              <div className="flex justify-center gap-[30px] p-[10px] mt-[5%]">
                 <div>
                   <div className="dropdown dropdown-bottom">
                     <div tabIndex={0} className="btn">
                       {selectedIcon ? (
-                        <div>{selectedIcon}</div>
+                        <div style={{ color: selectedColor }}>
+                          {selectedIcon}
+                        </div>
                       ) : (
                         <div>
                           <GoHomeFill className="w-[20px] h-[20px]" />
@@ -495,19 +505,40 @@ export default function Home() {
                             key={index}
                             onClick={() => handleIconClick(item)}
                           >
-                            <div className="">{item.icon}</div>
+                            <div>{item.icon}</div>
                           </button>
                         ))}
                       </div>
                       <div className=" w-full border-solid border-[1px] border-gray-300 mt-[15px]"></div>
-                      <div className="flex justify-evenly gap-[7px] mt-[17px] ">
-                        <div className="w-[20px] h-[20px] bg-red-500 rounded-full"></div>
-                        <div className="w-[20px] h-[20px] bg-blue-500 rounded-full"></div>
-                        <div className="w-[20px] h-[20px] bg-green-500 rounded-full"></div>
-                        <div className="w-[20px] h-[20px] bg-yellow-500 rounded-full"></div>
-                        <div className="w-[20px] h-[20px] bg-orange-500 rounded-full"></div>
-                        <div className="w-[20px] h-[20px] bg-purple-500 rounded-full"></div>
-                        <div className="w-[20px] h-[20px] bg-cyan-500 rounded-full"></div>
+                      <div className="flex justify-evenly gap-[7px] mt-[17px] *:cursor-pointer ">
+                        <div
+                          className="w-[20px] h-[20px] bg-red-500 rounded-full"
+                          onClick={() => handleColorClick("red")}
+                        ></div>
+                        <div
+                          className="w-[20px] h-[20px] bg-green-500 rounded-full"
+                          onClick={() => handleColorClick("green")}
+                        ></div>
+                        <div
+                          className="w-[20px] h-[20px] bg-purple-500 rounded-full"
+                          onClick={() => handleColorClick("purple")}
+                        ></div>
+                        <div
+                          className="w-[20px] h-[20px] bg-yellow-500 rounded-full"
+                          onClick={() => handleColorClick("yellow")}
+                        ></div>
+                        <div
+                          className="w-[20px] h-[20px] bg-blue-500 rounded-full"
+                          onClick={() => handleColorClick("blue")}
+                        ></div>
+                        <div
+                          className="w-[20px] h-[20px] bg-orange-500 rounded-full"
+                          onClick={() => handleColorClick("orange")}
+                        ></div>
+                        <div
+                          className="w-[20px] h-[20px] bg-black rounded-full"
+                          onClick={() => handleColorClick("black")}
+                        ></div>
                       </div>
                     </div>
                   </div>

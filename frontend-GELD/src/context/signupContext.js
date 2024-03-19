@@ -8,6 +8,10 @@ export const SignUpAllData = ({ children }) => {
   const [repassword, setRepassword] = useState("");
   const [currencyType, setCurrencyType] = useState("");
   const [balance, setBalance] = useState(null);
+  const [recordName, setRecordName] = useState("");
+  const [amount, setAmount] = useState("");
+  const [transaction_type, setTransaction_type] = useState("");
+  const [description, setDescription] = useState("");
   const fetchSignUpData = async () => {
     try {
       const response = await fetch("http://localhost:3001/users", {
@@ -24,6 +28,22 @@ export const SignUpAllData = ({ children }) => {
           balance,
         }),
       });
+      const recordResponse = await fetch(
+        "http://localhost:3001/transaction/transaction",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            recordName,
+            amount,
+            transaction_type,
+            description,
+          }),
+        }
+      );
+      const recordData = await recordResponse.json();
       const newData = await response.json();
       setName(newData.name);
       setEmail(newData.email);
@@ -31,7 +51,12 @@ export const SignUpAllData = ({ children }) => {
       setRepassword(newData.repassword);
       setCurrencyType(newData.currencyType);
       setBalance(newData.balance);
-      console.log(newData.newData);
+      setRecordName(recordData.recordName);
+      setAmount;
+      setTransaction_type;
+      setDescription;
+      console.log(newData);
+      console.log(recordData);
     } catch (error) {
       console.error("Error:", error);
     }
