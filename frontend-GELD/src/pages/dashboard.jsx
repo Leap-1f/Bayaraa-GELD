@@ -3,8 +3,13 @@ import { GoDotFill } from "react-icons/go";
 import { FaCircleArrowUp, FaCircleArrowDown } from "react-icons/fa6";
 import { BarChart, DoughnutChart } from "../components/BarChart";
 import { Logo, Geld } from "../components/icons/LogoIcons";
-
+import { useEffect, useContext } from "react";
+import { SignUpDataContext } from "../context/signupContext";
 export default function Home() {
+  const { recordData, fetchRecords } = useContext(SignUpDataContext);
+  useEffect(() => {
+    fetchRecords();
+  }, []);
   return (
     <div className="w-screen h-screen">
       <Header />
@@ -108,14 +113,43 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="w-full bg-white rounded-2xl h-[100px] p-[25px]">
+          <div className=" flex flex-col w-full bg-white rounded-2xl p-[25px]">
             <div className="flex justify-center items-center border-b-[2px]">
-              <div className="flex w-[90%] gap-[10px]">
+              <div className="flex flex-col w-[90%] gap-[10px]">
                 <div className=" font-bold text-[18px] mb-[20px]">
                   Last Records
                 </div>
               </div>
-              <div className=""></div>
+            </div>
+            <div className="flex flex-col gap-[10px]">
+              {recordData.map((category, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between w-full bg-white rounded-lg py-[15px] px-[10px] hover:shadow-lg"
+                >
+                  <div className="flex gap-[10px]">
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        Checked
+                        className="checkbox checkbox-md"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <div>{category.name}</div>
+                      <div className="text-[13px] text-gray-400">
+                        {category.createdat}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center text-gray-400">
+                    {category.description}
+                  </div>
+                  <div className=" flex items-center mr-[20px] text-green-400">
+                    {category.amount}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

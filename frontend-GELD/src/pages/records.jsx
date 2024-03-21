@@ -2,28 +2,43 @@ import { Header } from "../components/Header";
 import { BsPlusLg } from "react-icons/bs";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa6";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import CategoryIcons from "../components/icons/CategoryIcons";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
-import { LastRecord } from "../components/icons/Category";
 import { GoHomeFill } from "react-icons/go";
+import { SignUpDataContext } from "../context/signupContext";
 export default function Home() {
   const [isRecordOpen, setIsRecordOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-  const [recordType, setRecordType] = useState("Expense");
+  const [recordType, setRecordType] = useState("EXP");
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categories, setCategories] = useState([]);
   const [categoryName, setCategoryName] = useState("");
   const [selectedIconId, setSelectedIconId] = useState(null);
   const [selectedColor, setSelectedColor] = useState("black");
+  const {
+    recordName,
+    amount,
+    transaction_type,
+    description,
+    setRecordName,
+    setAmount,
+    setTransaction_type,
+    setDescription,
+    addRecords,
+    recordData,
+    fetchRecords,
+  } = useContext(SignUpDataContext);
+
   useEffect(() => {
     fetchCategories();
+    fetchRecords();
   }, []);
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch("http://localhost:3001/category", {
+      const response = await fetch("https://backend-geld.vercel.app/category", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -39,7 +54,7 @@ export default function Home() {
   const handleAddCategory = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3001/category/categories",
+        "https://backend-geld.vercel.app/category/categories",
         {
           method: "POST",
           headers: {
@@ -67,10 +82,10 @@ export default function Home() {
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category.name);
+    setRecordName(category.name);
   };
   const openRecord = () => {
     setIsRecordOpen(true);
-    // setRecordType("");
   };
   const closeRecord = () => {
     setSelectedCategory("");
@@ -84,7 +99,9 @@ export default function Home() {
     setIsCategoryOpen(false);
   };
   const handleRecordTypeChange = (type) => {
+    console.log(type);
     setRecordType(type);
+    setTransaction_type(type);
   };
 
   const handleColorClick = (color) => {
@@ -198,6 +215,7 @@ export default function Home() {
                         </div>
                       </div>
                     ))}
+
                     <div
                       className="flex ml-[10px] cursor-pointer w-fit gap-[10px]"
                       onClick={() => openCategory()}
@@ -270,7 +288,7 @@ export default function Home() {
               </div>
               <div className="flex flex-col gap-[15px]">
                 <div className=" font-semibold text-[20px]">Today</div>
-                {LastRecord.map((category, index) => (
+                {recordData.map((category, index) => (
                   <div
                     key={index}
                     className="flex justify-between w-full bg-white rounded-lg py-[15px] px-[10px] hover:shadow-lg"
@@ -284,17 +302,17 @@ export default function Home() {
                         />
                       </div>
                       <div className="flex flex-col">
-                        <div>{category.h1}</div>
+                        <div>{category.name}</div>
                         <div className="text-[13px] text-gray-400">
-                          {category.p}
+                          {category.createdat}
                         </div>
                       </div>
                     </div>
                     <div className="flex items-center text-gray-400">
-                      {category.par}
+                      {category.description}
                     </div>
                     <div className=" flex items-center mr-[20px] text-green-400">
-                      {category.num}
+                      {category.amount}
                     </div>
                   </div>
                 ))}
@@ -331,21 +349,23 @@ export default function Home() {
                 <div className="flex justify-between  *:text-center h-[10%] bg-gray-200 rounded-3xl *:cursor-pointer">
                   <div
                     className={`flex justify-center items-center w-1/2 h-full rounded-3xl ${
-                      recordType === "Expense"
+                      recordType === "EXP"
                         ? "bg-blue-500 text-white"
                         : "bg-gray-200 text-black"
                     }`}
-                    onClick={() => handleRecordTypeChange("Expense")}
+                    onClick={() => handleRecordTypeChange("EXP")}
+                    value={transaction_type}
                   >
                     Expense
                   </div>
                   <div
                     className={`flex justify-center items-center w-1/2 h-full rounded-3xl ${
-                      recordType === "Income"
+                      recordType === "INC"
                         ? "bg-green-500 text-white"
                         : "bg-gray-200 text-black"
                     }`}
-                    onClick={() => handleRecordTypeChange("Income")}
+                    onClick={() => handleRecordTypeChange("INC")}
+                    value={transaction_type}
                   >
                     Income
                   </div>
@@ -353,10 +373,17 @@ export default function Home() {
                 <div className="flex flex-col gap-[15px]">
                   <div className="w-full">
                     <div className="">Amount</div>
-                    <input
-                      placeholder="&#8366; 000.0"
-                      className="input input-bordered w-full bg-gray-100"
-                    />
+                    <label className="input input-bordered flex items-center gap-2 bg-gray-100">
+                      {recordType === "EXP" ? "- " : "+ "}
+                      &#8366;
+                      <input
+                        type="number"
+                        className="grow"
+                        placeholder=""
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                      />
+                    </label>
                   </div>
                   <div>
                     <div>Category</div>
@@ -367,7 +394,12 @@ export default function Home() {
                           className=" flex items-center input input-bordered w-full bg-gray-100"
                         >
                           {selectedCategory ? (
-                            <div>{selectedCategory}</div>
+                            <div className="flex items-center gap-2">
+                              {selectedIcon && (
+                                <div className="w-6 h-6">{selectedIcon}</div>
+                              )}
+                              <div>{selectedCategory}</div>
+                            </div>
                           ) : (
                             <div>Choose Category</div>
                           )}
@@ -391,7 +423,6 @@ export default function Home() {
                               </button>
                             ))}
                           </div>
-                          <div className="w-full border-solid border-[1px] border-gray-300 mt-[15px]"></div>
                         </div>
                       </div>
                     </div>
@@ -429,10 +460,11 @@ export default function Home() {
                   <div className="w-full mt-[20px]">
                     <button
                       className={`btn w-full text-white ${
-                        recordType === "Expense"
+                        recordType === "EXP"
                           ? "bg-blue-500 hover:bg-blue-600"
                           : "bg-green-500 hover:bg-green-400"
                       }`}
+                      onClick={addRecords}
                     >
                       Add Record
                     </button>
@@ -447,6 +479,8 @@ export default function Home() {
                       type="text"
                       placeholder="Type here"
                       className="input input-bordered w-full bg-gray-100"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
                     />
                   </div>
                 </div>

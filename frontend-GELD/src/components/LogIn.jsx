@@ -2,7 +2,6 @@ import { Logo, Geld } from "./icons/LogoIcons";
 import { InputsSection, Button } from "./Inputs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
 export const LogIn = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -10,13 +9,16 @@ export const LogIn = () => {
   const [error, setError] = useState("");
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:3001/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "https://backend-geld.vercel.app/users/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         console.log("Login response:", data);

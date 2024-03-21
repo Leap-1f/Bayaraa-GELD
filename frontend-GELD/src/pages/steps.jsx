@@ -12,7 +12,6 @@ import { SignUpDataContext } from "../context/signupContext";
 export default function Home() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showBalanceSetup, setShowBalanceSetup] = useState(false);
-
   const {
     currencyType,
     balance,

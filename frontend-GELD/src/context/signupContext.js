@@ -1,6 +1,5 @@
 import { useState, useEffect, createContext } from "react";
 export const SignUpDataContext = createContext([]);
-
 export const SignUpAllData = ({ children }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -10,11 +9,12 @@ export const SignUpAllData = ({ children }) => {
   const [balance, setBalance] = useState(null);
   const [recordName, setRecordName] = useState("");
   const [amount, setAmount] = useState("");
-  const [transaction_type, setTransaction_type] = useState("");
+  const [transaction_type, setTransaction_type] = useState("EXP");
   const [description, setDescription] = useState("");
+  const [recordData, setRecordData] = useState([]);
   const fetchSignUpData = async () => {
     try {
-      const response = await fetch("http://localhost:3001/users", {
+      const response = await fetch("https://backend-geld.vercel.app/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,8 +28,23 @@ export const SignUpAllData = ({ children }) => {
           balance,
         }),
       });
+      const newData = await response.json();
+      setName(newData.name);
+      setEmail(newData.email);
+      setPassword(newData.password);
+      setRepassword(newData.repassword);
+      setCurrencyType(newData.currencyType);
+      setBalance(newData.balance);
+      console.log(newData);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  const addRecords = async () => {
+    console.log(recordName, amount, transaction_type, description);
+    try {
       const recordResponse = await fetch(
-        "http://localhost:3001/transaction/transaction",
+        "https://backend-geld.vercel.app/transaction/transactions",
         {
           method: "POST",
           headers: {
@@ -44,19 +59,29 @@ export const SignUpAllData = ({ children }) => {
         }
       );
       const recordData = await recordResponse.json();
-      const newData = await response.json();
-      setName(newData.name);
-      setEmail(newData.email);
-      setPassword(newData.password);
-      setRepassword(newData.repassword);
-      setCurrencyType(newData.currencyType);
-      setBalance(newData.balance);
       setRecordName(recordData.recordName);
-      setAmount;
-      setTransaction_type;
-      setDescription;
-      console.log(newData);
+      setAmount(recordData.amount);
+      setTransaction_type(recordData.transaction_type);
+      setDescription(recordData.description);
       console.log(recordData);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  const fetchRecords = async () => {
+    try {
+      const response = await fetch(
+        "https://backend-geld.vercel.app/transaction",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const recordsData = await response.json();
+      setRecordData(recordsData);
+      console.log(recordsData);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -77,6 +102,17 @@ export const SignUpAllData = ({ children }) => {
         setCurrencyType,
         setBalance,
         fetchSignUpData,
+        recordName,
+        amount,
+        transaction_type,
+        description,
+        setRecordName,
+        setAmount,
+        setTransaction_type,
+        setDescription,
+        addRecords,
+        recordData,
+        fetchRecords,
       }}
     >
       {children}
