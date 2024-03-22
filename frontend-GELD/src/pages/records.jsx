@@ -17,6 +17,7 @@ export default function Home() {
   const [categoryName, setCategoryName] = useState("");
   const [selectedIconId, setSelectedIconId] = useState(null);
   const [selectedColor, setSelectedColor] = useState("black");
+  const [filteredArray, setFilteredArray] = useState([]);
   const {
     recordName,
     amount,
@@ -32,8 +33,8 @@ export default function Home() {
   } = useContext(SignUpDataContext);
 
   useEffect(() => {
-    fetchCategories();
     fetchRecords();
+    fetchCategories();
   }, []);
 
   const fetchCategories = async () => {
@@ -74,7 +75,14 @@ export default function Home() {
       console.error("Error:", error);
     }
   };
-
+  const handleSearch = (event) => {
+    const filteredRecords = recordData.filter((record) =>
+      record.description
+        .toLowerCase()
+        .includes(event.target.value.toLowerCase())
+    );
+    setFilteredArray(filteredRecords);
+  };
   const handleIconClick = (item) => {
     setSelectedIcon(item.icon);
     setSelectedIconId(item.id);
@@ -107,7 +115,14 @@ export default function Home() {
   const handleColorClick = (color) => {
     setSelectedColor(color);
   };
+  const [minAmount, setMinAmount] = useState(0);
+  const [maxAmount, setMaxAmount] = useState(1000);
 
+  const handleRangeChange = (event) => {
+    const value = parseInt(event.target.value);
+    setMinAmount(value);
+    setMaxAmount(value);
+  };
   return (
     <>
       <div className="w-screen h-screen">
@@ -133,6 +148,7 @@ export default function Home() {
                     type="text"
                     className="grow border-none"
                     placeholder="Search"
+                    onChange={handleSearch}
                   />
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -229,7 +245,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="">
-                <div className=" font-semibold">Amount Range</div>
+                <div className="font-semibold">Amount Range</div>
                 <div className="flex gap-[30px] mt-[20px]">
                   <div>
                     <input
@@ -243,11 +259,20 @@ export default function Home() {
                       type="text"
                       placeholder="1000"
                       className="input input-bordered w-full max-w-xs"
+                      value={maxAmount}
+                      onChange={(e) => setMaxAmount(parseInt(e.target.value))}
                     />
                   </div>
                 </div>
                 <div className="">
-                  <input type="range" className="w-full" />
+                  <input
+                    type="range"
+                    className="w-full"
+                    min={0}
+                    max={1000}
+                    value={minAmount}
+                    onChange={handleRangeChange}
+                  />
                 </div>
               </div>
             </div>
@@ -288,7 +313,7 @@ export default function Home() {
               </div>
               <div className="flex flex-col gap-[15px]">
                 <div className=" font-semibold text-[20px]">Today</div>
-                {recordData.map((category, index) => (
+                {filteredArray.map((category, index) => (
                   <div
                     key={index}
                     className="flex justify-between w-full bg-white rounded-lg py-[15px] px-[10px] hover:shadow-lg"
